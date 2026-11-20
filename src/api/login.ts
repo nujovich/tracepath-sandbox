@@ -1,3 +1,5 @@
+import { isRateLimited } from "../middleware/rateLimit.ts";
+
 export interface LoginRequest {
   username: string;
   password: string;
@@ -13,6 +15,9 @@ const USERS: Record<string, string> = {
 };
 
 export function handleLogin(req: LoginRequest): LoginResponse {
+  if (isRateLimited(req.username)) {
+    return { status: 429, body: { ok: false, message: "Too many attempts" } };
+  }
   if (!req.username || !req.password) {
     return { status: 400, body: { ok: false, message: "Missing credentials" } };
   }
