@@ -1,0 +1,5 @@
+reviews:
+  review_details: true
+knowledge_base:
+  mcp:
+    usage: enabled
